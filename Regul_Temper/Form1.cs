@@ -73,10 +73,11 @@ namespace Regul_Temper
                 double dqi = dQ(v, ro, cp, F, To, Tout[i - 1], kp, tau, Tz, Qout[i - 1]);
 
                 // Исправленный метод Эйлера
+                double dtk = dT(v, ro, cp, F, To, Tout[i - 1]+h*dti, Qout[i - 1]+h*dqi);
+                double dqk = dQ(v, ro, cp, F, To, Tout[i - 1] + h * dti, kp, tau, Tz, Qout[i - 1] + h * dqi);
 
-
-                Tout[i] = Tout[i - 1] + h * dti;
-                Qout[i] = Qout[i - 1] + h * dqi;
+                Tout[i] = Tout[i - 1] + h * (dti+  dtk) / 2;
+                Qout[i] = Qout[i - 1] + h * (dqi + dqk) / 2;
 
                 textBox1.Text += "\r\n t: " + t[i].ToString() + " T: " + Tout[i].ToString() + " Q: " + Qout[i].ToString();
             }
