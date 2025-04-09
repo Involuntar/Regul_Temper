@@ -49,6 +49,19 @@ namespace Regul_Temper
             double To = 25;
             double Qo = 0;
 
+            textBox1.Text += "\r\n" + " Исходные данные ";
+            textBox1.Text += "\r\n" + $" ro = {ro}";
+            textBox1.Text += "\r\n" + $" cp = {cp}";
+            textBox1.Text += "\r\n" + $" Tz = {Tz}";
+            textBox1.Text += "\r\n" + $" kp = {kp}";
+            textBox1.Text += "\r\n" + $" tau = {tau}";
+            textBox1.Text += "\r\n" + $" F = {F}";
+            textBox1.Text += "\r\n" + $" v = {v}";
+            textBox1.Text += "\r\n" + $" h = {h}";
+            textBox1.Text += "\r\n" + $" tn = {tn}";
+            textBox1.Text += "\r\n" + $" To = {To}";
+            textBox1.Text += "\r\n" + $" Qo = {Qo}";
+
             t[1] = tn;
             Tout[1] = To;
             Qout[1] = Qo;
@@ -61,6 +74,8 @@ namespace Regul_Temper
 
                 Tout[i] = Tout[i - 1] + h * dti;
                 Qout[i] = Qout[i - 1] + h * dqi;
+
+                textBox1.Text += "\r\n t: " + t[i].ToString() + " T: " + Tout[i].ToString() + " Q: " + Qout[i].ToString();
             }
         }
     }
