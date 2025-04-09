@@ -20,7 +20,7 @@ namespace Regul_Temper
         public double dQ(double v, double ro, double cp, double F, double To, double Tr, double kp, double tau, double Tz, double Q)
         {
             double r = -kp * ((F / v) * (To - Tr) + Q / (ro * cp * v)) + 
-                kp * (Tz / Tr) / tau;
+                kp * (Tz - Tr) / tau;
             return r;
         }
         public Form1()
@@ -38,9 +38,9 @@ namespace Regul_Temper
             double F = 10;
             double v = 100;
 
-            double h = 0.1; // шаг по времени
+            double h = 0.2; // шаг по времени
             double tn = 0;
-            int nt = 100;
+            int nt = 450;
 
             double[] t = new double[500];
             double[] Tout = new double[500];
@@ -72,10 +72,27 @@ namespace Regul_Temper
                 double dti = dT(v, ro, cp, F, To, Tout[i - 1], Qout[i - 1]);
                 double dqi = dQ(v, ro, cp, F, To, Tout[i - 1], kp, tau, Tz, Qout[i - 1]);
 
+                // Исправленный метод Эйлера
+
+
                 Tout[i] = Tout[i - 1] + h * dti;
                 Qout[i] = Qout[i - 1] + h * dqi;
 
                 textBox1.Text += "\r\n t: " + t[i].ToString() + " T: " + Tout[i].ToString() + " Q: " + Qout[i].ToString();
+            }
+
+            chart1.Titles.Add("T");
+            chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            for (int i = 1; i <= nt; i++)
+            {
+                chart1.Series["Series1"].Points.AddXY(i, Tout[i]);
+            }
+
+            chart2.Titles.Add("Q");
+            chart2.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            for (int i = 1; i <= nt; i++)
+            {
+                chart2.Series["Series1"].Points.AddXY(i, Qout[i]);
             }
         }
     }
